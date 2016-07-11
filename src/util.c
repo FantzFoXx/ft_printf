@@ -1,43 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char.c                                             :+:      :+:    :+:   */
+/*   util.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/11 08:37:09 by udelorme         ###   ########.fr       */
+/*   Created: 2016/07/11 06:21:02 by udelorme          #+#    #+#             */
+/*   Updated: 2016/07/11 08:37:10 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_char_string(char	*string)
+void	clear_vars_struct(t_vars *global)
 {
-	ft_putstr(string);
-}
-
-void	print_char(char c)
-{
-	ft_putchar(c);
-}
-
-void	print_sub_str(const char *str, int begin, size_t len)
-{
-	write(1, &str[begin], len);
-}
-
-void	cross_buffer(const char *buf, int	*i)
-{
-	int		begin;
-	size_t	len;
-
-	begin = *i;
-	len = 0;
-	while (buf[*i] && buf[*i] != '%')
-	{
-		len++;
-		(*i)++;
-	}
-	print_sub_str(buf, begin, len);
+	global->str = NULL;
+	global->integer = 0;
+	global->flt = 0;
+	global->dbl = 0;
+	global->shrt = 0;
+	global->ptr = NULL;
 }

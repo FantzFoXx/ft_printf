@@ -6,14 +6,14 @@
 #    By: udelorme <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/01/14 11:43:18 by udelorme          #+#    #+#              #
-#    Updated: 2016/07/09 20:02:39 by udelorme         ###   ########.fr        #
+#    Updated: 2016/07/11 06:21:16 by udelorme         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = clang
 FLAGS = -Wall -Werror -Wextra
 NAME = libftprintf.a
-SRC = ft_printf.c char.c parses.c
+SRC = ft_printf.c char.c parses.c decimal.c util.c
 
 OBJ = $(SRC:.c=.o)
 
