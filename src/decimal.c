@@ -6,35 +6,59 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 06:09:11 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/11 08:37:08 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/07/12 11:54:36 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_integer(int value)
+size_t	print_integer(int value)
 {
-	ft_putnbr(value);
+	char	*conv;
+	size_t	len;
+
+	len = 0;
+	conv = ft_itoa(value);
+	if (conv)
+	{
+		ft_putstr(conv);
+		len = ft_strlen(conv);
+		ft_strdel(&conv);
+	}
+	return (len);
 }
 
-void	print_octal_value(int value)
+size_t	print_octal_value(int value)
 {
 	char	*converted;
+	size_t	len;
 
+	len = 0;
 	converted = ft_uitoa_base(value, "01234567");
-	ft_putstr(converted);
-	free(converted);
+	if (converted)
+	{
+		ft_putstr(converted);
+		len = ft_strlen(converted);
+		free(converted);
+	}
+	return (len);
 }
 
-void	print_pointer_value(void *ptr)
+size_t	print_pointer_value(void *ptr)
 {
-	int		decimal_value;
+	long		decimal_value;
 	char	*converted;
+	size_t	len;
 
-	// wrong size converted, 2 bytes missing
-	decimal_value = (int)ptr;
-	converted = ft_uitoa_base(decimal_value, "0123456789abcdef");
-	ft_putstr("0x");
-	ft_putstr(converted);
-	free(converted);
+	len = 0;
+	decimal_value = (long)ptr;
+	converted = ft_ltoa_base(decimal_value, "0123456789abcdef");
+	if (converted)
+	{
+		ft_putstr("0x");
+		ft_putstr(converted);
+		len = ft_strlen(converted);
+		free(converted);
+	}
+	return (len);
 }

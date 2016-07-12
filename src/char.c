@@ -6,28 +6,30 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/11 08:37:09 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/07/12 11:54:35 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-void	print_char_string(char	*string)
+size_t		print_char_string(char	*string)
 {
 	ft_putstr(string);
+	return (ft_strlen(string));
 }
 
-void	print_char(char c)
+size_t		print_char(char c)
 {
 	ft_putchar(c);
+	return (1);
 }
 
-void	print_sub_str(const char *str, int begin, size_t len)
+static void	print_sub_str(const char *str, int begin, size_t len)
 {
 	write(1, &str[begin], len);
 }
 
-void	cross_buffer(const char *buf, int	*i)
+size_t		cross_buffer(const char *buf, int	*i)
 {
 	int		begin;
 	size_t	len;
@@ -40,4 +42,5 @@ void	cross_buffer(const char *buf, int	*i)
 		(*i)++;
 	}
 	print_sub_str(buf, begin, len);
+	return (len);
 }

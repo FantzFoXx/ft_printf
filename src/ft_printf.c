@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/11 08:37:11 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/07/12 11:54:35 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,14 @@
 
 int		print_var_content(t_vars *vars, int type, va_list *list)
 {
+	size_t	len_write;
+
+	len_write = 0;
 	clear_vars_struct(vars);
 	if (type == 's')
 	{
 		vars->str = va_arg(*list, char *);
-		print_char_string(vars->str);
+		increment_write_len(vars, NULL, print_char_string(vars->str));
 	}
 	else if (type == 'd' || type == 'i')
 	{
@@ -29,7 +32,7 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	else if (type == 'c')
 	{
 		vars->integer = va_arg(*list, int);
-		print_char(vars->integer);
+		increment_write_len(vars, NULL, print_char(vars->integer));
 	}
 	else if (type == 'o')
 	{
@@ -40,6 +43,12 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	{
 		vars->ptr = va_arg(*list, void *);
 		print_pointer_value(vars->ptr);
+	}
+	else if (type == '%')
+	{
+		// make function
+		write(1, "%", 1);
+		vars->write_len += 1;
 	}
 	else
 		va_arg(*list, void *);
@@ -57,9 +66,10 @@ int		ft_printf(const char * restrict format, ...)
 	va_start(lst, format);
 	i = 0;
 	type = 0;
+	vars.write_len = 0;
 	while (format[i])
 	{
-		cross_buffer(format, &i);
+		increment_write_len(&vars, NULL, cross_buffer(format, &i));
 		if (format[i])
 		{
 			if (format[i] == '%')
@@ -70,5 +80,5 @@ int		ft_printf(const char * restrict format, ...)
 			i++;
 		}
 	}
-	return (0);
+	return (vars.write_len);
 }
