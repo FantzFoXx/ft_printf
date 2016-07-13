@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 19:24:10 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/12 11:54:38 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/07/13 17:21:09 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,16 +38,27 @@ int		get_index_attr(char *buf)
 	return ((int)*buf);
 }
 
-int		parse_percent(char *buf, int *flag, int *i)
+int		parse_percent(char *buf, int *flag, int *i, t_vars *vars)
 {
 	int		flag_size;
 	int		ret;
+	int		bak;
 
 	(*i)++;
 	*flag = get_flag(&buf[*i], &flag_size);
 	*i += flag_size;
 	ret = 0;
+	bak = *i;
 	if (buf[*i])
-		ret = get_index_attr(&buf[*i]);
-	return (ret);
+		if ((ret = ft_atoi(&buf[*i])) == 0)
+		{
+			*i = bak;
+			return (get_index_attr(&buf[*i]));
+		}
+	while (ft_isdigit(buf[*i]) || buf[*i] == '.')
+		(*i)++;
+	increment_write_len(vars, NULL, print_padding(ret - 1));
+	vars->padding = 1;
+	return (get_index_attr(&buf[*i]));
+	//return (ret);
 }

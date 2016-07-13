@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/12 11:54:35 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/07/13 17:21:12 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 size_t		print_char_string(char	*string)
 {
+	if (!string)
+		string = "(null)";
 	ft_putstr(string);
 	return (ft_strlen(string));
 }
