@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:24:33 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/13 17:21:08 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/05 16:50:53 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ typedef struct	s_vars
 	wchar_t			wch;
 	wchar_t			*wchs;
 	int				padding;
+	int				len_padded_var;
+	int				flag;
 }				t_vars;
 
 int		ft_printf(const char * restrict format, ...);
@@ -36,7 +38,8 @@ size_t	cross_buffer(const char *buf, int	*i);
 //void	print_sub_str(const char *str, int begin, size_t len);
 size_t	print_char_string(char	*string);
 //size_t	print_wchar_string(wchar_t *string);
-int		parse_percent(char *buf, int *flag, int *i, t_vars *vars);
+//int		parse_percent(char *buf, int *flag, int *i, t_vars *vars);
+int		parse_percent(char *buf, int *flag, t_vars *vars);
 size_t	print_integer(int value);
 size_t	print_uinteger(unsigned int value);
 size_t	print_char(char c);

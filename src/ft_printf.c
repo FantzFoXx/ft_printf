@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/13 17:21:13 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/05 16:55:39 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int		ft_printf(const char * restrict format, ...)
 {
 	va_list	lst;
 	int		i;
-	int		flag;
 	int		type;
 	t_vars	vars;
 	
@@ -87,6 +86,7 @@ int		ft_printf(const char * restrict format, ...)
 	i = 0;
 	type = 0;
 	vars.write_len = 0;
+	vars.padding = 0; // remove this shit
 	while (format[i])
 	{
 		increment_write_len(&vars, NULL, cross_buffer(format, &i));
@@ -94,8 +94,12 @@ int		ft_printf(const char * restrict format, ...)
 		{
 			if (format[i] == '%')
 			{
-				type = parse_percent((char *)format, &flag, &i, &vars);
+				i += parse_percent((char *)format, &type, &vars);
+				if (vars.padding)
+					print_padding(vars.padding);
 				print_var_content(&vars, type, &lst);
+				if (vars.padding < 0)
+					print_padding(-(vars.padding));
 			}
 			i++;
 		}

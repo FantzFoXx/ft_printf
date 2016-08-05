@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 06:21:02 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/13 17:21:11 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/05 16:55:37 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	clear_vars_struct(t_vars *global)
 	global->ptr = NULL;
 	global->wch = 0;
 	global->wchs = NULL;
-	global->padding = 0;
+	//global->padding = 0;
 }
 
 size_t	increment_write_len(t_vars *vars, char *print, int decimal_value)
@@ -42,6 +42,7 @@ size_t	print_padding(int len)
 {
 	char	*padd;
 
+	len = (len > 0) ? len : -len;
 	padd = ft_strnew(len);
 	ft_memset(padd, ' ', len);
 	write(1, padd, len);
