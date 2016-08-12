@@ -6,23 +6,26 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/07/13 17:21:12 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/12 11:29:24 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-size_t		print_char_string(char	*string)
+size_t		print_char_string(char	*string, t_vars *vars)
 {
 	if (!string)
 		string = "(null)";
-	ft_putstr(string);
+	print_str_padded(string, vars);
 	return (ft_strlen(string));
 }
 
-size_t		print_char(char c)
+size_t		print_char(char c, t_vars *vars)
 {
-	ft_putchar(c);
+	char	to_str[2];
+	to_str[0] = c;
+	to_str[1] = 0;
+	print_str_padded(to_str, vars);
 	return (1);
 }
 
@@ -31,18 +34,47 @@ static void	print_sub_str(const char *str, int begin, size_t len)
 	write(1, &str[begin], len);
 }
 
-size_t		cross_buffer(const char *buf, int	*i)
+size_t		cross_buffer(const char *buf)
 {
-	int		begin;
 	size_t	len;
+	char	*begin;
 
-	begin = *i;
 	len = 0;
-	while (buf[*i] && buf[*i] != '%')
+	begin = (char *)buf;
+	while (*buf && *buf != '%')
 	{
 		len++;
-		(*i)++;
+		buf++;
 	}
-	print_sub_str(buf, begin, len);
+	print_sub_str(begin, 0, len);
 	return (len);
+}
+
+void		print_str_padded(char *str, t_vars *vars)
+{
+	size_t	len_str;
+	int		padding;
+
+	len_str = ft_strlen(str);
+
+	padding = vars->padding - len_str;
+	if (padding > 0)
+		vars->write_len += padding;
+	if (!HAS_FLAG_RIGHT(vars->flags))
+	{
+		while (padding > 0)
+		{
+			ft_putchar(' ');
+			padding--;
+		}
+	}
+	ft_putstr(str);
+	if (HAS_FLAG_RIGHT(vars->flags))
+	{
+		while (padding > 0)
+		{
+			ft_putchar(' ');
+			padding--;
+		}
+	}
 }

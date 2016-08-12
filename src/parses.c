@@ -6,90 +6,86 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 19:24:10 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/05 16:55:40 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/12 11:17:48 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
 
-static int		get_flag(char *buf, int *size)
+static int		get_flags(char **buf)
 {
-	*size = 2;
-	if (ft_strncmp(buf, "ll", 2) == 0)
-		return (2);
-	else if (ft_strncmp(buf, "hh", 2) == 0)
-		return (4);
-	*size = 1;
-	if (ft_strncmp(buf, "l", 1) == 0)
-		return (1);
-	else if (ft_strncmp(buf, "h", 1) == 0)
-		return (3);
-	else if (ft_strncmp(buf, "j", 1) == 0)
-		return (5);
-	else if (ft_strncmp(buf, "z", 1) == 0)
-		return (6);
-	*size = 0;
-	return (0);
+	int		ret;
+
+	ret = 0;
+	while (42)
+	{
+		if (**buf == '+')
+			ret |= 1;
+		else if (**buf == ' ')
+			ret |= 2;
+		else if (**buf == '-')
+			ret |= 4;
+		else if (**buf == '#')
+			ret |= 8;
+		else if (**buf == '0')
+			ret |= 16;
+		else
+			break ;
+		(*buf)++;
+	}
+	return (ret);
 }
 
-int		get_index_attr(char *buf)
+static int		get_index_attr(char *buf)
 {
 	return ((int)*buf);
 }
 
-
-int		parse_percent(char *buf, int *flag, t_vars *vars)
+static int		get_size_specifier(char **buf)
 {
-	int		i;
-	int		ret;
+	char	*tmp;
 
-	i = 1;
-	if (buf[i])
-	{
-		if ((ret = ft_atoi(&buf[i])) != 0)
-		{
-			vars->padding = ret;
-			while (ft_isdigit(buf[i]))
-				i++;
-			if (buf[i] == '.')
-				i++;
-			if ((ret = ft_atoi(&buf[i])) != 0)
-				vars->len_padded_var = ret;
-			while (ft_isdigit(buf[i]))
-				i++;
-		}
-		if (buf[i])
-			vars->flag = get_flag(&buf[i], &i);
-		*flag = get_index_attr(&buf[i]);
-	}
-	return (i);
+	tmp = *buf;
+	*buf += 2;
+	if (ft_strncmp(tmp, "ll", 2) == 0)
+		return (2);
+	else if (ft_strncmp(tmp, "hh", 2) == 0)
+		return (4);
+	*buf -= 1;
+	if (ft_strncmp(tmp, "l", 1) == 0)
+		return (1);
+	else if (ft_strncmp(tmp, "h", 1) == 0)
+		return (3);
+	else if (ft_strncmp(tmp, "j", 1) == 0)
+		return (5);
+	else if (ft_strncmp(tmp, "z", 1) == 0)
+		return (6);
+	*buf -= 1;
+	return (0);
 }
 
-#if 0
-int		parse_percent(char *buf, int *flag, int *i, t_vars *vars)
+int		parse_percent(char **buf, t_vars *vars)
 {
-	int		flag_size;
+	char	*tmp;
 	int		ret;
-	int		bak;
 
-	(*i)++;
-	*flag = get_flag(&buf[*i], &flag_size);
-	*i += flag_size;
-	ret = 0;
-	bak = *i;
-	if (buf[*i])
+	tmp = ++*buf;
+	vars->flags = get_flags(&tmp);
+	vars->padding = ft_atoi(tmp);
+	if (vars->padding > 0)
+		while (ft_isdigit(*tmp))
+			tmp++;
+	if (*tmp == '.')
 	{
-		if ((ret = ft_atoi(&buf[*i])) == 0)
-		{
-			*i = bak;
-			return (get_index_attr(&buf[*i]));
-		}
-		while (ft_isdigit(buf[*i]) || buf[*i] == '.')
-			(*i)++;
-		increment_write_len(vars, NULL, ret - 1);
-		vars->padding = ret -1;
+		tmp++;
+		vars->precision = ft_atoi(tmp);
+		if (vars->precision > 0)
+			while (ft_isdigit(*tmp))
+				tmp++;
 	}
-	return (get_index_attr(&buf[*i]));
+	vars->size_specifier = get_size_specifier(&tmp);
+	ret = get_index_attr(tmp++);
+	*buf = tmp;
+	return (ret);
 }
-#endif

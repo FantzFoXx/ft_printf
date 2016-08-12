@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/05 16:55:39 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/12 11:29:22 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,53 +22,52 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	if (type == 's' || type == 'S')
 	{
 		vars->str = va_arg(*list, char *);
-		increment_write_len(vars, NULL, print_char_string(vars->str));
+		increment_write_len(vars, NULL, print_char_string(vars->str, vars));
 	}
 	//else if (type == 'S')
 	//{
 	//	vars->wchs = va_arg(*list, wchar_t *);
-	//	increment_write_len(vars, NULL, print_wchar_string(vars->wchs));
+	//	increment_write_len(vars, NULL, print_wchar_string(vars->wchs, vars));
 	//}
 	else if (type == 'd' || type == 'i' || type == 'D')
 	{
 		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_integer(vars->integer));
+		increment_write_len(vars, NULL, print_integer(vars->integer, vars));
 	}
 	else if (type == 'u')
 	{
 		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_uinteger(vars->integer));
+		increment_write_len(vars, NULL, print_uinteger(vars->integer, vars));
 	}
 	else if (type == 'c')
 	{
 		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_char(vars->integer));
+		increment_write_len(vars, NULL, print_char(vars->integer, vars));
 	}
 	else if (type == 'o' || type == 'O')
 	{
 		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_octal_value(vars->integer));
+		increment_write_len(vars, NULL, print_octal_value(vars->integer, vars));
 	}
 	else if (type == 'x')
 	{
 		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_hex_value(vars->integer, 0));
+		increment_write_len(vars, NULL, print_hex_value(vars->integer, 0, vars));
 	}
 	else if (type == 'X')
 	{
 		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_hex_value(vars->integer, 1));
+		increment_write_len(vars, NULL, print_hex_value(vars->integer, 1, vars));
 	}
 	else if (type == 'p')
 	{
 		vars->ptr = va_arg(*list, void *);
-		increment_write_len(vars, NULL, print_pointer_value(vars->ptr));
+		increment_write_len(vars, NULL, print_pointer_value(vars->ptr, vars));
 	}
 	else if (type == '%')
 	{
 		// make function
-		write(1, "%", 1);
-		vars->write_len += 1;
+		increment_write_len(vars, NULL, print_char_string("%", vars));
 	}
 	else
 		va_arg(*list, void *);
@@ -78,31 +77,21 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 int		ft_printf(const char * restrict format, ...)
 {
 	va_list	lst;
-	int		i;
 	int		type;
 	t_vars	vars;
-	
+
 	va_start(lst, format);
-	i = 0;
 	type = 0;
 	vars.write_len = 0;
-	vars.padding = 0; // remove this shit
-	while (format[i])
+	while (*format)
 	{
-		increment_write_len(&vars, NULL, cross_buffer(format, &i));
-		if (format[i])
-		{
-			if (format[i] == '%')
+		format += increment_write_len(&vars, NULL, cross_buffer(format));
+		if (*format)
+			if (*format == '%')
 			{
-				i += parse_percent((char *)format, &type, &vars);
-				if (vars.padding)
-					print_padding(vars.padding);
+				type = parse_percent((char **)&format, &vars);
 				print_var_content(&vars, type, &lst);
-				if (vars.padding < 0)
-					print_padding(-(vars.padding));
 			}
-			i++;
-		}
 	}
 	return (vars.write_len);
 }
