@@ -6,12 +6,60 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/12 11:29:22 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/13 08:13:05 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
+
+
+long long	convert_var_size(long long value, t_vars *vars, int entry_type)
+{
+	if (vars->size_specifier == 1)
+	{
+		if (entry_type == 1)
+			return ((long)value);
+		else if (entry_type == 2)
+			return ((unsigned long)value);
+	}
+	else if (vars->size_specifier == 2)
+	{
+		if (entry_type == 1)
+			return ((long)value);
+		else if (entry_type == 2)
+			return ((unsigned long long)value);
+	}
+	else if (vars->size_specifier == 3)
+	{
+		if (entry_type == 1)
+			return ((short)value);
+		else if (entry_type == 2)
+			return ((unsigned short)value);
+	}
+	else if (vars->size_specifier == 4)
+	{
+		if (entry_type == 1)
+			return ((signed char)value);
+		else if (entry_type == 2)
+			return ((unsigned char)value);
+	}
+	else if (vars->size_specifier == 5)
+	{
+		if (entry_type == 1)
+			return ((intmax_t)value);
+		else if (entry_type == 2)
+			return ((uintmax_t)value);
+	}
+	else if (vars->size_specifier == 6)
+	{
+		if (entry_type == 1)
+			return ((size_t)value); //provisoire
+		else if (entry_type == 2)
+			return ((size_t)value);
+	}
+	return ((long long)value);
+}
 
 int		print_var_content(t_vars *vars, int type, va_list *list)
 {
@@ -31,33 +79,37 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	//}
 	else if (type == 'd' || type == 'i' || type == 'D')
 	{
-		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_integer(vars->integer, vars));
+		vars->container = convert_var_size(va_arg(*list, int), vars, 1);
+		increment_write_len(vars, NULL, print_integer(vars->container, vars));
 	}
 	else if (type == 'u')
 	{
-		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_uinteger(vars->integer, vars));
+		//vars->container = va_arg(*list, int);
+		vars->container = convert_var_size(va_arg(*list, int), vars, 2);
+		increment_write_len(vars, NULL, print_uinteger(vars->container, vars));
 	}
 	else if (type == 'c')
 	{
-		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_char(vars->integer, vars));
+		vars->container = va_arg(*list, int);
+		increment_write_len(vars, NULL, print_char(vars->container, vars));
 	}
 	else if (type == 'o' || type == 'O')
 	{
-		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_octal_value(vars->integer, vars));
+		//vars->container = va_arg(*list, int);
+		vars->container = convert_var_size(va_arg(*list, int), vars, 2);
+		increment_write_len(vars, NULL, print_octal_value(vars->container, vars));
 	}
 	else if (type == 'x')
 	{
-		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_hex_value(vars->integer, 0, vars));
+		//vars->container = va_arg(*list, int);
+		vars->container = convert_var_size(va_arg(*list, int), vars, 2);
+		increment_write_len(vars, NULL, print_hex_value(vars->container, 0, vars));
 	}
 	else if (type == 'X')
 	{
-		vars->integer = va_arg(*list, int);
-		increment_write_len(vars, NULL, print_hex_value(vars->integer, 1, vars));
+		//vars->container = va_arg(*list, int);
+		vars->container = convert_var_size(va_arg(*list, int), vars, 2);
+		increment_write_len(vars, NULL, print_hex_value(vars->container, 1, vars));
 	}
 	else if (type == 'p')
 	{

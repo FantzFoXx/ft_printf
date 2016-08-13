@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 06:21:02 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/12 10:35:49 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/13 08:12:33 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	clear_vars_struct(t_vars *global)
 {
+	global->container = 0;
 	global->str = NULL;
 	global->integer = 0;
 	global->uint = 0;

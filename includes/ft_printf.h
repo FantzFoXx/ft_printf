@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:24:33 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/12 10:50:26 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/13 09:09:35 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,21 @@
 #include "libft.h"
 #include <stdarg.h>
 
-# define FLAG_SIGN 1
-# define FLAG_SPACE 2
-# define FLAG_RIGHT 4
-# define FLAG_OBV 8
-# define FLAG_ZERO 16
+# define FLAG_SIGN	1
+# define FLAG_SPACE	2
+# define FLAG_RIGHT	4
+# define FLAG_OBV	8
+# define FLAG_ZERO	16
 
-# define HAS_FLAG_SIGN(x) (((x) >> 0) & 1)
-# define HAS_FLAG_SPACE(x) ((x >> 1) & 1)
-# define HAS_FLAG_RIGHT(x) ((x >> 2) & 1)
-# define HAS_FLAG_OBV(x) ((x >> 4) & 1)
-# define HAS_FLAG_ZERO(x) ((x >> 8) & 1)
+# define HAS_FLAG_SIGN(x)	((x >> 0) & 1)
+# define HAS_FLAG_SPACE(x)	((x >> 1) & 1)
+# define HAS_FLAG_RIGHT(x)	((x >> 2) & 1)
+# define HAS_FLAG_OBV(x)	((x >> 3) & 1)
+# define HAS_FLAG_ZERO(x)	((x >> 4) & 1)
 
 typedef struct	s_vars
 {
+	intmax_t		container;
 	char			*str;
 	int				integer;
 	unsigned int	uint;

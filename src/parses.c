@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 19:24:10 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/12 11:17:48 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/13 09:57:07 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ static int		get_flags(char **buf)
 	while (42)
 	{
 		if (**buf == '+')
-			ret |= 1;
+			ret |= FLAG_SIGN;
 		else if (**buf == ' ')
-			ret |= 2;
+			ret |= FLAG_SPACE;
 		else if (**buf == '-')
-			ret |= 4;
+			ret |= FLAG_RIGHT;
 		else if (**buf == '#')
-			ret |= 8;
+			ret |= FLAG_OBV;
 		else if (**buf == '0')
-			ret |= 16;
+			ret |= FLAG_ZERO;
 		else
 			break ;
 		(*buf)++;
@@ -80,7 +80,7 @@ int		parse_percent(char **buf, t_vars *vars)
 	{
 		tmp++;
 		vars->precision = ft_atoi(tmp);
-		if (vars->precision > 0)
+		//if (vars->precision > 0)
 			while (ft_isdigit(*tmp))
 				tmp++;
 	}
