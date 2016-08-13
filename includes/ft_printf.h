@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:24:33 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 09:09:35 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/13 10:31:11 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 
 typedef struct	s_vars
 {
-	intmax_t		container;
+	uintmax_t		container;
 	char			*str;
 	int				integer;
 	unsigned int	uint;

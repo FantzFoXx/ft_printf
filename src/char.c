@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 09:50:52 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/13 11:10:33 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,18 +51,21 @@ size_t		cross_buffer(const char *buf)
 	return (len);
 }
 
-char		*add_padding(char *str, size_t len_padding, int before)
+char		*add_padding(char *str, size_t len_padding, t_vars *vars)
 {
 	char	*tmp;
 	size_t	str_len;
 
 	str_len = ft_strlen(str);
-	tmp = (char *)ft_memallocset(sizeof(char) * str_len + len_padding, ' ');
-	tmp[str_len + len_padding] = 0;
-	if (before)
-		tmp += len_padding;
+	if (HAS_FLAG_ZERO(vars->flags))
+		tmp = (char *)ft_memallocset(sizeof(char) * str_len + len_padding, '0');
 	else
+		tmp = (char *)ft_memallocset(sizeof(char) * str_len + len_padding, ' ');
+	tmp[str_len + len_padding] = 0;
+	if (HAS_FLAG_RIGHT(vars->flags))
 		len_padding = 0;
+	else
+		tmp += len_padding;
 	while (*str)
 	{
 		*tmp = *str;
@@ -70,7 +73,6 @@ char		*add_padding(char *str, size_t len_padding, int before)
 		tmp++;
 	}
 	tmp -= (str_len + len_padding);
-	//ft_trace("ret", tmp);
 	return (tmp);
 }
 
@@ -84,10 +86,7 @@ void		print_str_padded(char *str, t_vars *vars)
 	if (padding > 0)
 	{
 		vars->write_len += padding;
-		if (!HAS_FLAG_RIGHT(vars->flags))
-			str = add_padding(str, (size_t)padding, 1);
-		else if (HAS_FLAG_RIGHT(vars->flags))
-			str = add_padding(str, (size_t)padding, 0);
+		str = add_padding(str, (size_t)padding, vars);
 	}
 	ft_putstr(str);
 }

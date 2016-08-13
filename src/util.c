@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 06:21:02 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 08:12:33 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/13 11:35:12 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ void	clear_vars_struct(t_vars *global)
 	global->ptr = NULL;
 	global->wch = 0;
 	global->wchs = NULL;
-	global->precision = 0;
+	//global->precision = 0;
 	//global->padding = 0;
 }
 
+#ifdef FT_PRINTF_DEBUG
 void	dump_vars_struct(t_vars *global)
 {
 	ft_putendl("###### DEBUG ######");
@@ -37,6 +38,7 @@ void	dump_vars_struct(t_vars *global)
 	ft_nbrtrace("global->shrt",global->shrt);
 	ft_putendl("###################");
 }
+#endif
 
 size_t	increment_write_len(t_vars *vars, char *print, int decimal_value)
 {

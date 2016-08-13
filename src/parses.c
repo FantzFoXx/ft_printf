@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 19:24:10 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 09:57:07 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/13 10:57:43 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,8 @@ int		parse_percent(char **buf, t_vars *vars)
 	{
 		tmp++;
 		vars->precision = ft_atoi(tmp);
-		//if (vars->precision > 0)
-			while (ft_isdigit(*tmp))
-				tmp++;
+		while (ft_isdigit(*tmp))
+			tmp++;
 	}
 	vars->size_specifier = get_size_specifier(&tmp);
 	ret = get_index_attr(tmp++);

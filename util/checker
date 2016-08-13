@@ -1,0 +1,1 @@
+faire un checker de printf qui va creer des chaines formatees random, compiler les printf avec ces chaines generees et detecter les differences et les remonter.

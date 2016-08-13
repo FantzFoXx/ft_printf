@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 08:13:05 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/13 10:58:48 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,8 @@ int		ft_printf(const char * restrict format, ...)
 	va_start(lst, format);
 	type = 0;
 	vars.write_len = 0;
+	vars.precision = 0;
+	vars.padding = 0;
 	while (*format)
 	{
 		format += increment_write_len(&vars, NULL, cross_buffer(format));
