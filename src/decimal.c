@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 06:09:11 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 11:00:29 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/15 17:55:10 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ size_t	print_integer(int value, t_vars *vars)
 
 	len = 0;
 	conv = ft_itoa(value);
-	if (vars->precision > 0)
+	if (vars->precision >= 0)
 		conv = decimal_precision(conv, vars->precision);
 	if (HAS_FLAG_SIGN(vars->flags) && value > 0)
 		conv = ft_strjoin("+", conv); // leak
@@ -66,7 +66,7 @@ size_t	print_uinteger(unsigned int value, t_vars *vars)
 
 	len = 0;
 	conv = ft_uitoa(value);
-	if (vars->precision > 0)
+	if (vars->precision >= 0)
 		conv = decimal_precision(conv, vars->precision);
 	if (HAS_FLAG_SIGN(vars->flags) && value > 0)
 		conv = ft_strjoin("+", conv); // leak
@@ -82,6 +82,7 @@ size_t	print_uinteger(unsigned int value, t_vars *vars)
 size_t	print_octal_value(int value, t_vars *vars)
 {
 	char	*converted;
+	char	*prec;
 	size_t	len;
 
 	len = 0;
@@ -90,6 +91,11 @@ size_t	print_octal_value(int value, t_vars *vars)
 		converted = decimal_precision(converted, vars->precision);
 	if (converted)
 	{
+		if (HAS_FLAG_OBV(vars->flags) && value > 0)
+		{
+			prec = "0";
+			ft_str_renew(&converted, ft_strjoin(prec, converted));
+		}
 		print_str_padded(converted, vars);
 		len = ft_strlen(converted);
 		free(converted);
@@ -110,9 +116,6 @@ size_t	print_hex_value(int value, int case_ascii, t_vars *vars)
 		converted = ft_uitoa_base(value, "0123456789abcdef");
 	if (converted)
 	{
-		//if (vars->precision > 0)
-		//	converted = decimal_precision(converted, vars->precision);
-		//	not the right way, 2 digits = 1 value in hexadecimal base
 		if (HAS_FLAG_OBV(vars->flags) && value > 0)
 		{
 			prec = (case_ascii == 1) ? "0X" : "0x";

@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 10:58:48 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/15 17:50:01 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	//}
 	else if (type == 'd' || type == 'i' || type == 'D')
 	{
-		vars->container = convert_var_size(va_arg(*list, int), vars, 1);
+		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 1);
 		increment_write_len(vars, NULL, print_integer(vars->container, vars));
 	}
 	else if (type == 'u')
 	{
 		//vars->container = va_arg(*list, int);
-		vars->container = convert_var_size(va_arg(*list, int), vars, 2);
+		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 2);
 		increment_write_len(vars, NULL, print_uinteger(vars->container, vars));
 	}
 	else if (type == 'c')
@@ -96,19 +96,19 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	else if (type == 'o' || type == 'O')
 	{
 		//vars->container = va_arg(*list, int);
-		vars->container = convert_var_size(va_arg(*list, int), vars, 2);
+		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 2);
 		increment_write_len(vars, NULL, print_octal_value(vars->container, vars));
 	}
 	else if (type == 'x')
 	{
 		//vars->container = va_arg(*list, int);
-		vars->container = convert_var_size(va_arg(*list, int), vars, 2);
+		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 2);
 		increment_write_len(vars, NULL, print_hex_value(vars->container, 0, vars));
 	}
 	else if (type == 'X')
 	{
 		//vars->container = va_arg(*list, int);
-		vars->container = convert_var_size(va_arg(*list, int), vars, 2);
+		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 2);
 		increment_write_len(vars, NULL, print_hex_value(vars->container, 1, vars));
 	}
 	else if (type == 'p')
@@ -119,10 +119,11 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	else if (type == '%')
 	{
 		// make function
-		increment_write_len(vars, NULL, print_char_string("%", vars));
+		increment_write_len(vars, NULL, print_percent("%", vars));
 	}
 	else
 		va_arg(*list, void *);
+	vars->precision = -1;
 	return (1);
 }
 
@@ -135,7 +136,7 @@ int		ft_printf(const char * restrict format, ...)
 	va_start(lst, format);
 	type = 0;
 	vars.write_len = 0;
-	vars.precision = 0;
+	vars.precision = -1;
 	vars.padding = 0;
 	while (*format)
 	{

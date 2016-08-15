@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:24:33 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 10:31:11 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/15 17:49:25 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int		ft_printf(const char * restrict format, ...);
 size_t	cross_buffer(const char *buf);
 size_t	print_char_string(char	*string, t_vars *vars);
 int		parse_percent(char **buf, t_vars *vars);
+size_t		print_percent(char	*string, t_vars *vars);
 //size_t	print_integer(int value);
 size_t	print_integer(int value, t_vars *vars);
 size_t	print_uinteger(unsigned int value, t_vars *vars);
@@ -62,7 +63,7 @@ size_t	print_hex_value(int value, int case_ascii, t_vars *vars);
 size_t	print_pointer_value(void *ptr, t_vars *vars);
 size_t	increment_write_len(t_vars *vars, char *print, int decimal_value);
 size_t	print_padding(int len);
-void	print_str_padded(char *str, t_vars *vars);
+int		print_str_padded(char *str, t_vars *vars);
 
 
 

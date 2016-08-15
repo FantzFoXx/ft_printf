@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 11:10:33 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/15 17:48:03 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,24 @@
 
 size_t		print_char_string(char	*string, t_vars *vars)
 {
-	if (!string)
-		string = "(null)";
+	char	*str;
+	size_t	str_len;
+
+	str = ft_strdup(string);
+	if (!str)
+		str = "(null)";
+	if (vars->precision >= 0)
+		str[vars->precision] = 0;
+	print_str_padded(str, vars);
+	str_len = ft_strlen(str);
+	free(str);
+	return (str_len);
+}
+
+size_t		print_percent(char	*string, t_vars *vars)
+{
 	print_str_padded(string, vars);
-	return (ft_strlen(string));
+	return (1);
 }
 
 size_t		print_char(char c, t_vars *vars)
@@ -76,7 +90,7 @@ char		*add_padding(char *str, size_t len_padding, t_vars *vars)
 	return (tmp);
 }
 
-void		print_str_padded(char *str, t_vars *vars)
+int		print_str_padded(char *str, t_vars *vars)
 {
 	size_t	len_str;
 	int		padding;
@@ -89,4 +103,6 @@ void		print_str_padded(char *str, t_vars *vars)
 		str = add_padding(str, (size_t)padding, vars);
 	}
 	ft_putstr(str);
+	vars->precision = -1;
+	return (ft_strlen(str));
 }
