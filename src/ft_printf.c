@@ -6,59 +6,70 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/15 17:50:01 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/17 06:03:30 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
 
-
-long long	convert_var_size(long long value, t_vars *vars, int entry_type)
+char	*ft_conv_select(intmax_t value, t_vars *vars,
+		int entry_type, char *base_conv)
 {
 	if (vars->size_specifier == 1)
 	{
 		if (entry_type == 1)
-			return ((long)value);
+			return (ft_ltoa_base((long)value, base_conv));
 		else if (entry_type == 2)
-			return ((unsigned long)value);
+			return (ft_ltoa_base((unsigned long)value, base_conv));
+			//return ((unsigned long)value);
 	}
 	else if (vars->size_specifier == 2)
 	{
 		if (entry_type == 1)
-			return ((long)value);
+			return (ft_ltoa_base((long)value, base_conv));
+			//return ((long)value);
 		else if (entry_type == 2)
-			return ((unsigned long long)value);
+			return (ft_lltoa_base((long)value, base_conv));
+			//return ((unsigned long long)value);
 	}
 	else if (vars->size_specifier == 3)
 	{
 		if (entry_type == 1)
-			return ((short)value);
+			return (ft_itoa((short)value));
+		//	return ((short)value);
 		else if (entry_type == 2)
-			return ((unsigned short)value);
+			return (ft_itoa((unsigned short)value));
 	}
 	else if (vars->size_specifier == 4)
 	{
 		if (entry_type == 1)
-			return ((signed char)value);
+			return (ft_itoa((signed char)value));
 		else if (entry_type == 2)
-			return ((unsigned char)value);
+			return (ft_itoa((unsigned char)value));
 	}
 	else if (vars->size_specifier == 5)
 	{
 		if (entry_type == 1)
-			return ((intmax_t)value);
+			return (ft_imtoa_base((intmax_t)value, base_conv));
 		else if (entry_type == 2)
-			return ((uintmax_t)value);
+			return (ft_uimtoa_base((intmax_t)value, base_conv));
+			//return ((uintmax_t)value);
 	}
 	else if (vars->size_specifier == 6)
 	{
 		if (entry_type == 1)
-			return ((size_t)value); //provisoire
+			return (ft_itoa((size_t)value)); //provisoire
 		else if (entry_type == 2)
-			return ((size_t)value);
+			return (ft_itoa((size_t)value));
 	}
+#if 0
 	return ((long long)value);
+#endif
+	if (entry_type == 2)
+		return (ft_uitoa_base((int)value, base_conv));
+	else
+		return (ft_itoa_base((int)value, base_conv));
 }
 
 int		print_var_content(t_vars *vars, int type, va_list *list)
@@ -79,14 +90,16 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	//}
 	else if (type == 'd' || type == 'i' || type == 'D')
 	{
-		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 1);
-		increment_write_len(vars, NULL, print_integer(vars->container, vars));
+		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 1);
+		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 1, "0123456789");
+		increment_write_len(vars, NULL, print_integer(vars->str, vars));
 	}
 	else if (type == 'u')
 	{
-		//vars->container = va_arg(*list, int);
-		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 2);
-		increment_write_len(vars, NULL, print_uinteger(vars->container, vars));
+		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
+		//increment_write_len(vars, NULL, print_uinteger(vars->container, vars));
+		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 1, "0123456789");
+		increment_write_len(vars, NULL, print_integer(vars->str, vars));
 	}
 	else if (type == 'c')
 	{
@@ -95,21 +108,21 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	}
 	else if (type == 'o' || type == 'O')
 	{
-		//vars->container = va_arg(*list, int);
-		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 2);
-		increment_write_len(vars, NULL, print_octal_value(vars->container, vars));
+		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 2, "01234567");
+		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
+		increment_write_len(vars, NULL, print_octal_value(vars->str, vars));
 	}
 	else if (type == 'x')
 	{
-		//vars->container = va_arg(*list, int);
-		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 2);
-		increment_write_len(vars, NULL, print_hex_value(vars->container, 0, vars));
+		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
+		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 2, "0123456789abcdef");
+		increment_write_len(vars, NULL, print_hex_value(vars->str, 0, vars));
 	}
 	else if (type == 'X')
 	{
-		//vars->container = va_arg(*list, int);
-		vars->container = convert_var_size(va_arg(*list, intmax_t), vars, 2);
-		increment_write_len(vars, NULL, print_hex_value(vars->container, 1, vars));
+		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
+		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 2, "0123456789ABCDEF");
+		increment_write_len(vars, NULL, print_hex_value(vars->str, 1, vars));
 	}
 	else if (type == 'p')
 	{
