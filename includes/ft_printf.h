@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:24:33 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/17 06:09:56 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/18 16:55:58 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,7 @@ size_t	increment_write_len(t_vars *vars, char *print, int decimal_value);
 size_t	print_padding(int len);
 //int		print_str_padded(char *str, t_vars *vars);
 int		print_str_padded(char *str, t_vars *vars, char *prefix);
-
-
+char	*add_padding(char *str, size_t len_padding, t_vars *vars);
 
 void	dump_vars_struct(t_vars *global);
 

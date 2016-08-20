@@ -6,12 +6,18 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 19:24:10 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/13 10:57:43 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/20 16:31:37 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "ft_printf.h"
+
+void			handle_flag_conflicts(t_vars *vars)
+{
+	if (HAS_FLAG_ZERO(vars->flags) && HAS_FLAG_RIGHT(vars->flags))
+		vars->flags &= ~FLAG_ZERO;
+}
 
 static int		get_flags(char **buf)
 {
@@ -72,6 +78,7 @@ int		parse_percent(char **buf, t_vars *vars)
 
 	tmp = ++*buf;
 	vars->flags = get_flags(&tmp);
+	handle_flag_conflicts(vars);
 	vars->padding = ft_atoi(tmp);
 	if (vars->padding > 0)
 		while (ft_isdigit(*tmp))

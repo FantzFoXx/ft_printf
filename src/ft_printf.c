@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/17 06:03:30 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/18 16:34:23 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ char	*ft_conv_select(intmax_t value, t_vars *vars,
 	return ((long long)value);
 #endif
 	if (entry_type == 2)
-		return (ft_uitoa_base((int)value, base_conv));
+		return (ft_uitoa_base((unsigned int)value, base_conv));
 	else
 		return (ft_itoa_base((int)value, base_conv));
 }
@@ -117,6 +117,7 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
 		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 2, "0123456789abcdef");
 		increment_write_len(vars, NULL, print_hex_value(vars->str, 0, vars));
+		//ft_nbrtrace("vars->write_len", vars->write_len);
 	}
 	else if (type == 'X')
 	{
