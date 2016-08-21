@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:24:33 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/18 16:55:58 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/21 19:23:40 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ size_t		print_percent(char	*string, t_vars *vars);
 //size_t	print_integer(int value);
 //size_t	print_integer(int value, t_vars *vars);
 size_t	print_integer(char *value, t_vars *vars);
-size_t	print_uinteger(unsigned int value, t_vars *vars);
+//size_t	print_uinteger(unsigned int value, t_vars *vars);
+size_t	print_uinteger(char *value, t_vars *vars);
 size_t	print_char(char c, t_vars *vars);
 void	clear_vars_struct(t_vars *global);
 //size_t	print_octal_value(int value, t_vars *vars);

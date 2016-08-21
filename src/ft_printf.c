@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/18 16:34:23 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/21 19:54:02 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*ft_conv_select(intmax_t value, t_vars *vars,
 	else if (vars->size_specifier == 6)
 	{
 		if (entry_type == 1)
-			return (ft_itoa((size_t)value)); //provisoire
+			return (ft_ltoa_base((long)value, "0123456789")); //provisoire
 		else if (entry_type == 2)
 			return (ft_itoa((size_t)value));
 	}
@@ -88,9 +88,17 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	//	vars->wchs = va_arg(*list, wchar_t *);
 	//	increment_write_len(vars, NULL, print_wchar_string(vars->wchs, vars));
 	//}
-	else if (type == 'd' || type == 'i' || type == 'D')
+	else if (type == 'd' || type == 'i')
 	{
 		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 1);
+		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 1, "0123456789");
+		increment_write_len(vars, NULL, print_integer(vars->str, vars));
+	}
+	else if (type == 'D')
+	{
+		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
+		//increment_write_len(vars, NULL, print_uinteger(vars->container, vars));
+		vars->size_specifier = 1;
 		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 1, "0123456789");
 		increment_write_len(vars, NULL, print_integer(vars->str, vars));
 	}
@@ -98,7 +106,15 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 	{
 		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
 		//increment_write_len(vars, NULL, print_uinteger(vars->container, vars));
-		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 1, "0123456789");
+		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 2, "0123456789");
+		increment_write_len(vars, NULL, print_uinteger(vars->str, vars));
+	}
+	else if (type == 'U')
+	{
+		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
+		//increment_write_len(vars, NULL, print_uinteger(vars->container, vars));
+		vars->size_specifier = 1;
+		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 2, "0123456789");
 		increment_write_len(vars, NULL, print_integer(vars->str, vars));
 	}
 	else if (type == 'c')
@@ -106,8 +122,15 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 		vars->container = va_arg(*list, int);
 		increment_write_len(vars, NULL, print_char(vars->container, vars));
 	}
-	else if (type == 'o' || type == 'O')
+	else if (type == 'o')
 	{
+		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 2, "01234567");
+		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
+		increment_write_len(vars, NULL, print_octal_value(vars->str, vars));
+	}
+	else if (type == 'O')
+	{
+		vars->size_specifier = 1;
 		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 2, "01234567");
 		//vars->str = convert_var_size(va_arg(*list, intmax_t), vars, 2);
 		increment_write_len(vars, NULL, print_octal_value(vars->str, vars));

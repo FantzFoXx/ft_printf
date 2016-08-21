@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/20 16:54:30 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/21 19:28:49 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,16 @@ size_t		print_char_string(char	*string, t_vars *vars)
 	char	*str;
 	size_t	str_len;
 
-	str = ft_strdup(string);
-	if (!str)
-		str = "(null)";
-	if (vars->precision >= 0)
-		str[vars->precision] = 0;
+	str_len = 0;
+	str = NULL;
+	if (!string)
+		str = ft_strdup("(null)");
+	else
+	{
+		str = ft_strdup(string);
+		if (vars->precision >= 0)
+			str[vars->precision] = 0;
+	}
 	str_len = print_str_padded(str, vars, NULL);
 	free(str);
 	return (str_len);
@@ -33,16 +38,33 @@ size_t		print_percent(char	*string, t_vars *vars)
 	return (print_str_padded(string, vars, NULL));
 }
 
+int		print_char_padded(char c, t_vars *vars)
+{
+	size_t	len;
+	int		padding;
+
+	len = 0;
+	padding = vars->padding - 1;
+	if (padding > 0 && !HAS_FLAG_RIGHT(vars->flags))
+		len += print_padding(padding);
+	len += write(1, &c, 1);
+	if (padding > 0 && HAS_FLAG_RIGHT(vars->flags))
+		len += print_padding(padding);
+	vars->precision = -1;
+	return (len);
+}
+
 size_t		print_char(char c, t_vars *vars)
 {
-	char	to_str[2];
+	//char	to_str[2];
 	int		ret;
 
-	to_str[0] = c;
-	to_str[1] = 0;
-	ret = print_str_padded(to_str, vars, NULL);
-	if (c == 0)
-		ret += 1;
+	//to_str[0] = c;
+	//to_str[1] = 0;
+	//ret = print_str_padded(to_str, vars, NULL);
+	ret = print_char_padded(c, vars);
+	//if (c == 0)
+	//	ret += 1;
 	return (ret);
 }
 
