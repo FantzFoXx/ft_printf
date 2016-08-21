@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/21 19:54:02 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/21 21:07:59 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_conv_select(intmax_t value, t_vars *vars,
 		if (entry_type == 1)
 			return (ft_ltoa_base((long)value, base_conv));
 		else if (entry_type == 2)
-			return (ft_ltoa_base((unsigned long)value, base_conv));
+			return (ft_ultoa_base((unsigned long)value, base_conv));
 			//return ((unsigned long)value);
 	}
 	else if (vars->size_specifier == 2)
@@ -39,14 +39,14 @@ char	*ft_conv_select(intmax_t value, t_vars *vars,
 			return (ft_itoa((short)value));
 		//	return ((short)value);
 		else if (entry_type == 2)
-			return (ft_itoa((unsigned short)value));
+			return (ft_uitoa_base((unsigned short)value, base_conv));
 	}
 	else if (vars->size_specifier == 4)
 	{
 		if (entry_type == 1)
 			return (ft_itoa((signed char)value));
 		else if (entry_type == 2)
-			return (ft_itoa((unsigned char)value));
+			return (ft_uitoa_base((unsigned char)value, base_conv));
 	}
 	else if (vars->size_specifier == 5)
 	{
@@ -61,7 +61,7 @@ char	*ft_conv_select(intmax_t value, t_vars *vars,
 		if (entry_type == 1)
 			return (ft_ltoa_base((long)value, "0123456789")); //provisoire
 		else if (entry_type == 2)
-			return (ft_itoa((size_t)value));
+			return (ft_uitoa((size_t)value));
 	}
 #if 0
 	return ((long long)value);
