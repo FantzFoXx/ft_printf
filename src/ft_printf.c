@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/21 21:07:59 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/22 14:23:32 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 		vars->str = ft_conv_select(va_arg(*list, intmax_t), vars, 2, "0123456789");
 		increment_write_len(vars, NULL, print_integer(vars->str, vars));
 	}
-	else if (type == 'c')
+	else if (type == 'c' || type == 'C' ) //replace C with wchar function
 	{
 		vars->container = va_arg(*list, int);
 		increment_write_len(vars, NULL, print_char(vars->container, vars));

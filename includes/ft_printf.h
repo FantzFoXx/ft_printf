@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:24:33 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/21 19:23:40 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/22 14:35:49 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@
 # define HAS_FLAG_RIGHT(x)	((x >> 2) & 1)
 # define HAS_FLAG_OBV(x)	((x >> 3) & 1)
 # define HAS_FLAG_ZERO(x)	((x >> 4) & 1)
+
+# define IS_CONVERT_VALUE(x)	(x == '%' || x == 'p' || x == 'X' || x == 'x' \
+		|| x == 'o' || x == 'O' || x == 'c' || x == 'C' || x == 'u' || x == 'U'\
+		|| x == 'd' || x == 'D' || x == 's' || x == 'S' || x == 'i')
 
 /*
 enum

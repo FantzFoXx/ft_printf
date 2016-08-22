@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 19:24:10 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/20 16:31:37 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/22 14:41:54 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void			handle_flag_conflicts(t_vars *vars)
 {
 	if (HAS_FLAG_ZERO(vars->flags) && HAS_FLAG_RIGHT(vars->flags))
 		vars->flags &= ~FLAG_ZERO;
+	//if (HAS_FLAG_ZERO(vars->flags) && HAS_FLAG_SPACE(vars->flags))
+	//	vars->flags &= ~FLAG_ZERO;
 }
 
 static int		get_flags(char **buf)
@@ -92,6 +94,8 @@ int		parse_percent(char **buf, t_vars *vars)
 	}
 	vars->size_specifier = get_size_specifier(&tmp);
 	ret = get_index_attr(tmp++);
+	if (!IS_CONVERT_VALUE(ret))
+		tmp--;
 	*buf = tmp;
 	return (ret);
 }

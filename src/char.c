@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/21 19:28:49 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/22 18:02:00 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,13 +101,9 @@ char		*add_padding(char *str, size_t len_padding, t_vars *vars)
 		tmp = (char *)ft_memallocset(sizeof(char) * str_len + len_padding + 1, ' ');
 	tmp[str_len + len_padding] = 0;
 	if (HAS_FLAG_RIGHT(vars->flags))
-	{
 		len_padding = 0;
-	}
 	else
-	{
 		tmp += len_padding;
-	}
 	while (*str)
 	{
 		*tmp = *str;

@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 06:09:11 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/21 20:58:23 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/08/22 18:15:18 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,15 @@ size_t	print_integer(char *value, t_vars *vars)
 	if (HAS_FLAG_SIGN(vars->flags) || negative)
 		padding -= 1;
 	if (padding > 0 && HAS_FLAG_ZERO(vars->flags))
+	{
+		padding -= (HAS_FLAG_SPACE(vars->flags)) ? 1 : 0;
 		conv = add_padding(conv, (size_t)padding, vars);
+		if (HAS_FLAG_SPACE(vars->flags))
+		{
+			vars->flags &= ~FLAG_ZERO;
+			padding = 0;
+		}
+	}
 	if (HAS_FLAG_SIGN(vars->flags) && *value != '-')
 		conv = ft_strjoin("+", conv); // leak
 	else if (negative)
