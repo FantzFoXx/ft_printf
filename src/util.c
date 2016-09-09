@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 06:21:02 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/18 14:29:24 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/09/07 23:38:39 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,18 @@ size_t	increment_write_len(t_vars *vars, char *print, int decimal_value)
 	return (len);
 }
 
-size_t	print_padding(int len)
+size_t	print_padding(int len, t_vars *vars)
 {
 	char	*padd;
+	char	c;
 
 	len = (len > 0) ? len : -len;
 	padd = ft_strnew(len);
-	ft_memset(padd, ' ', len);
+	if (HAS_FLAG_ZERO(vars->flags))
+		c = '0';
+	else
+		c = ' ';
+	ft_memset(padd, c, len);
 	write(1, padd, len);
 	free(padd);
 	return (len);

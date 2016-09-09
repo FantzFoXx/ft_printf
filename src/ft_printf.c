@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:26:07 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/22 14:23:32 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/09/07 18:58:06 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,11 @@ int		print_var_content(t_vars *vars, int type, va_list *list)
 		increment_write_len(vars, NULL, print_percent("%", vars));
 	}
 	else
+	{
+		if (type != 0)
+			increment_write_len(vars, NULL, print_str_padded((char *)&type, vars, NULL));
 		va_arg(*list, void *);
+	}
 	vars->precision = -1;
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 19:24:10 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/22 14:41:54 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/09/07 18:35:35 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int		parse_percent(char **buf, t_vars *vars)
 	int		ret;
 
 	tmp = ++*buf;
+	if (**buf == 0)
+		return (0);
 	vars->flags = get_flags(&tmp);
 	handle_flag_conflicts(vars);
 	vars->padding = ft_atoi(tmp);
@@ -94,8 +96,9 @@ int		parse_percent(char **buf, t_vars *vars)
 	}
 	vars->size_specifier = get_size_specifier(&tmp);
 	ret = get_index_attr(tmp++);
-	if (!IS_CONVERT_VALUE(ret))
-		tmp--;
+	//ft_nbrtrace("ret", ret);
+	//if (!IS_CONVERT_VALUE(ret))
+	//	tmp--;
 	*buf = tmp;
 	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 17:24:33 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/22 14:35:49 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/09/07 23:08:29 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ size_t	print_octal_value(char *value, t_vars *vars);
 size_t	print_hex_value(char *value, int case_ascii, t_vars *vars);
 size_t	print_pointer_value(void *ptr, t_vars *vars);
 size_t	increment_write_len(t_vars *vars, char *print, int decimal_value);
-size_t	print_padding(int len);
+size_t  print_padding(int len, t_vars *vars);
 //int		print_str_padded(char *str, t_vars *vars);
 int		print_str_padded(char *str, t_vars *vars, char *prefix);
 char	*add_padding(char *str, size_t len_padding, t_vars *vars);

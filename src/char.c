@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/22 18:02:00 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/09/08 02:27:53 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ size_t		print_char_string(char	*string, t_vars *vars)
 
 	str_len = 0;
 	str = NULL;
+	ft_putstr("address : ");
+	print_memory(&string, 4);
 	if (!string)
 		str = ft_strdup("(null)");
 	else
@@ -46,25 +48,19 @@ int		print_char_padded(char c, t_vars *vars)
 	len = 0;
 	padding = vars->padding - 1;
 	if (padding > 0 && !HAS_FLAG_RIGHT(vars->flags))
-		len += print_padding(padding);
+		len += print_padding(padding, vars);
 	len += write(1, &c, 1);
 	if (padding > 0 && HAS_FLAG_RIGHT(vars->flags))
-		len += print_padding(padding);
+		len += print_padding(padding, vars);
 	vars->precision = -1;
 	return (len);
 }
 
 size_t		print_char(char c, t_vars *vars)
 {
-	//char	to_str[2];
 	int		ret;
 
-	//to_str[0] = c;
-	//to_str[1] = 0;
-	//ret = print_str_padded(to_str, vars, NULL);
 	ret = print_char_padded(c, vars);
-	//if (c == 0)
-	//	ret += 1;
 	return (ret);
 }
 
@@ -85,6 +81,7 @@ size_t		cross_buffer(const char *buf)
 		len++;
 		buf++;
 	}
+	//ft_trace("buf", buf);
 	print_sub_str(begin, 0, len);
 	return (len);
 }
