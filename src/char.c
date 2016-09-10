@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/09 18:19:25 by udelorme          #+#    #+#             */
-/*   Updated: 2016/09/08 02:27:53 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/09/10 17:48:46 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,16 @@ size_t		print_char_string(char	*string, t_vars *vars)
 
 	str_len = 0;
 	str = NULL;
-	ft_putstr("address : ");
-	print_memory(&string, 4);
-	if (!string)
+	//ft_putstr("address : ");
+	//print_memory(&string, 4);
+	if (!string && vars->padding == 0)
 		str = ft_strdup("(null)");
 	else
 	{
-		str = ft_strdup(string);
+		if (string)
+			str = ft_strdup(string);
+		else
+			str = ft_strdup("");
 		if (vars->precision >= 0)
 			str[vars->precision] = 0;
 	}
@@ -63,6 +66,14 @@ size_t		print_char(char c, t_vars *vars)
 	ret = print_char_padded(c, vars);
 	return (ret);
 }
+
+#if 0
+size_t		print_wchar(wchar_t c, t_vars *vars)
+{
+
+	return (0);
+}
+#endif
 
 static void	print_sub_str(const char *str, int begin, size_t len)
 {

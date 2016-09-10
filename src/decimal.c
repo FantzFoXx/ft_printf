@@ -6,7 +6,7 @@
 /*   By: udelorme <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/07/11 06:09:11 by udelorme          #+#    #+#             */
-/*   Updated: 2016/08/22 18:15:18 by udelorme         ###   ########.fr       */
+/*   Updated: 2016/09/10 15:33:38 by udelorme         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,23 +109,6 @@ size_t	print_integer(char *value, t_vars *vars)
 
 size_t	print_uinteger(char *value, t_vars *vars)
 {
-	/*
-	char	*conv;
-	size_t	len;
-
-	len = 0;
-	conv = ft_uitoa(value);
-	if (vars->precision >= 0)
-		conv = decimal_precision(conv, vars->precision);
-	if (HAS_FLAG_SIGN(vars->flags) && value > 0)
-		conv = ft_strjoin("+", conv); // leak
-	if (conv)
-	{
-		len = print_str_padded(conv, vars, NULL);
-		ft_strdel(&conv);
-	}
-	return (len);
-*/
 	char	*conv;
 	size_t	len;
 	int		padding;
@@ -154,6 +137,8 @@ size_t	print_uinteger(char *value, t_vars *vars)
 		conv = add_padding(conv, (size_t)padding, vars);
 	//if (HAS_FLAG_SIGN(vars->flags) && *value != '-')
 	//	conv = ft_strjoin("+", conv); // leak
+	//if (HAS_FLAG_SPACE(vars->flags) && !HAS_FLAG_ZERO(vars->flags) && vars->precision <= 0)
+	//	conv = ft_strjoin(" ", conv); //leak
 	if (padding > 0 && !HAS_FLAG_ZERO(vars->flags))
 		conv = add_padding(conv, (size_t)padding, vars);
 	if (conv)
@@ -172,18 +157,17 @@ size_t	print_octal_value(char *value, t_vars *vars)
 	size_t	len;
 
 	len = 0;
-	//converted = ft_uitoa_base(value, "01234567");
 	converted = value;
-	if (vars->precision > 0)
-		converted = decimal_precision(converted, vars->precision);
 	if (converted)
 	{
 		if (HAS_FLAG_OBV(vars->flags) && ft_strcmp(value, "0"))
 		{
 			prec = "0";
-			ft_str_renew(&converted, ft_strjoin(prec, converted));
+			//ft_str_renew(&converted, ft_strjoin(prec, converted));
 		}
-		len = print_str_padded(converted, vars, NULL);
+		if (vars->precision > 0)
+			converted = decimal_precision(converted, vars->precision);
+		len = print_str_padded(converted, vars, prec);
 		free(converted);
 	}
 	return (len);
@@ -198,19 +182,11 @@ size_t	print_hex_value(char *value, int case_ascii, t_vars *vars)
 	converted = value;
 
 	len = 0;
-	/*
-	if (case_ascii == 1)
-		converted = ft_uitoa_base(value, "0123456789ABCDEF");
-	else
-		converted = ft_uitoa_base(value, "0123456789abcdef");
-		*/
 	if (converted)
 	{
 		if (HAS_FLAG_OBV(vars->flags) && ft_strcmp(value, "0") != 0)
-		{
 			prec = (case_ascii == 1) ? "0X" : "0x";
-			//ft_str_renew(&converted, ft_strjoin(prec, converted));
-		}
+		converted = decimal_precision(converted, vars->precision);
 		len = print_str_padded(converted, vars, prec);
 		free(converted);
 	}
@@ -228,8 +204,9 @@ size_t	print_pointer_value(void *ptr, t_vars *vars)
 	converted = ft_ltoa_base(decimal_value, "0123456789abcdef");
 	if (converted)
 	{
-		ft_str_renew(&converted, ft_strjoin("0x", converted));
-		len = print_str_padded(converted, vars, NULL);
+		//ft_str_renew(&converted, ft_strjoin("0x", converted));
+		converted = decimal_precision(converted, vars->precision);
+		len = print_str_padded(converted, vars, "0x");
 		free(converted);
 	}
 	return (len);
